@@ -5,7 +5,7 @@
 
 /* disable selection */
 .noSelect{
-	-webkit-touch-callout:none!important;
+  -webkit-touch-callout:none!important;
   -webkit-user-select:none!important;
   user-select:none!important;}
 
@@ -20,7 +20,7 @@ html,body{
 body{
   color:rgb(235,235,235);
   font-family:Arial,Helvetica,sans-serif;
-	font-size:18px;
+  font-size:18px;
   background-color:rgb(50,50,50);}
 
 #app{
@@ -45,8 +45,8 @@ body{
 #header{
   display:none;
   gap:10px;
-	width:100%;
-	box-sizing:border-box;
+  width:100%;
+  box-sizing:border-box;
   border-radius:5px;
   margin-top:10px;
   margin-bottom:10px;
@@ -67,7 +67,7 @@ body{
   border-radius:5px;
   padding:10px 0;
   font-size:110%;
-	text-align:center;}
+  text-align:center;}
 
 #start,
 #results{
@@ -103,8 +103,8 @@ body{
 /* blocks */
 #blocks{
   box-sizing:border-box;
-	width:100%;
-	display:flex;
+  width:100%;
+  display:flex;
   flex-wrap:wrap;
   gap:10px;}
 
@@ -114,7 +114,7 @@ body{
   overflow:hidden;
   position:relative;
   flex:1 1 21%;
-	cursor:pointer;
+  cursor:pointer;
   background-color:rgb(35,35,35);
   border-radius:5px;}
 
@@ -136,40 +136,32 @@ body{
   width:100px;
   max-width:100%;}
 
-.block.open{
-  cursor:default;
-	background-color:rgb(235,235,235);}
-
-.block.open .blockImage{
-  opacity:1;}
-
-.block.match{
-	animation: rubberBand .5s, fadeOut .5s .5s forwards;}
-
-.block.unmatched{
-  background-color:rgb(226,4,59);}
+.block.open{cursor:default;background-color:rgb(235,235,235);}
+.block.open .blockImage{opacity:1;}
+.block.match{animation: rubberBand .5s, fadeOut .5s .5s forwards;}
+.block.unmatched{background-color:rgb(226,4,59);}
 
 /* animations */
 @keyframes rubberBand {
-	0%{transform:scale3d(1, 1, 1);}
-	30%{transform:scale3d(1.25, 0.75, 1);}
-	40%{transform:scale3d(0.75, 1.25, 1);}
-	50%{transform:scale3d(1.15, 0.85, 1);}
-	65%{transform:scale3d(.95, 1.05, 1);}
-	75%{transform:scale3d(1.05, .95, 1);}
-	100%{transform:scale3d(1, 1, 1);}
+  0%{transform:scale3d(1, 1, 1);}
+  30%{transform:scale3d(1.25, 0.75, 1);}
+  40%{transform:scale3d(0.75, 1.25, 1);}
+  50%{transform:scale3d(1.15, 0.85, 1);}
+  65%{transform:scale3d(.95, 1.05, 1);}
+  75%{transform:scale3d(1.05, .95, 1);}
+  100%{transform:scale3d(1, 1, 1);}
 }
 
 @keyframes pulse{
-	0%{transform:scale3d(1,1,1);}
+  0%{transform:scale3d(1,1,1);}
   50%{transform:scale3d(1.05,1.05,1.05);}
-	100%{transform:scale3d(1,1,1);}
+  100%{transform:scale3d(1,1,1);}
 }
 @keyframes fadeOut{
-	0%{opacity:1;}
-	100%{opacity:0;}
+  0%{opacity:1;}
+  100%{opacity:0;}
 }
 @keyframes fadeIn{
-	0%{opacity:0;}
-	100%{opacity:1;}
+  0%{opacity:0;}
+  100%{opacity:1;}
 }

@@ -3,13 +3,8 @@
 ::-webkit-scrollbar-track{background-color:transparent;}
 ::-webkit-scrollbar-thumb{border-radius:6px;}
 
-/* disable selection */
-.noSelect{
-  -webkit-touch-callout:none!important;
-  -webkit-user-select:none!important;
-  user-select:none!important;}
-
-html,body{
+html,
+body{
   position:relative;
   margin:0;
   padding:0;
@@ -24,6 +19,8 @@ body{
   background-color:rgb(50,50,50);}
 
 #app{
+  -webkit-user-select:none;
+  user-select:none;
   overflow-x:hidden;
   overflow-y:scroll;
   scrollbar-gutter:stable both-edges;

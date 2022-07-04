@@ -16,33 +16,38 @@ arr = [
   'walrus.png'
 ];
 
-let timer = () => {
-  let tNow = new Date().getTime();
-  time = setInterval(function(){
-    let tUpd = new Date().getTime();
-    let tDif = tUpd - tNow;
+/* timer */
+let Tint,Time;
+Time = document.getElementById('time');
 
-    let hrs = Math.floor((tDif % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let min = Math.floor((tDif % (1000 * 60 * 60)) / (1000 * 60));
-    let sec = Math.floor((tDif % (1000 * 60)) / 1000);
+let Timer = () => {
+  let TNow,TUpd,TDif,TNew,hrs,min,sec;
+  TNow = new Date().getTime();
+  Tint = setInterval(function(){
+    TUpd = new Date().getTime();
+    TDif = TUpd - TNow;
+
+    hrs = Math.floor((TDif % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    min = Math.floor((TDif % (1000 * 60 * 60)) / (1000 * 60));
+    sec = Math.floor((TDif % (1000 * 60)) / 1000);
 
     if(hrs.toString().length === 1){hrs = '0'+hrs;};
     if(min.toString().length === 1){min = '0'+min;};
     if(sec.toString().length === 1){sec = '0'+sec;};
-    tNew = hrs+':'+min+':'+sec;
-    document.getElementById('timer').innerHTML = tNew;
+    TNew = hrs+':'+min+':'+sec;
+    Time.innerHTML = TNew;
   },1000);
 };
 
 let reset = () => {
   clearTimeout(hint);
-  clearTimeout(time);
+  clearTimeout(Tint);
   difficulty = '';
   mismatch = 0;
   session = 'off';
   bArr = [];
   document.getElementById('mismatch').innerHTML = '0';
-  document.getElementById('timer').innerHTML = '00:00:00';
+  Time.innerHTML = '00:00:00';
   document.getElementById('blocks').innerHTML = '';
 };
 reset();
@@ -117,7 +122,7 @@ let results = () => {
 };
 
 function check(){
-  if(session === 'off'){session = 'on';timer();};
+  if(session === 'off'){session = 'on';Timer();};
 
   let autoHide = () => {
     unmatched = Array.from(document.getElementsByClassName('unmatched'));
@@ -157,7 +162,7 @@ function check(){
 
   matched = Array.from(document.getElementsByClassName('match'));
   if(matched.length == block.length){
-    clearInterval(time);
+    clearInterval(Tint);
     setTimeout(() => {
       results();
       document.getElementById('results').classList.add('on');

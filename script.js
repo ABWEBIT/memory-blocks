@@ -1,4 +1,20 @@
-var dir,hint,menu,buttons,difficulty,block,session,time,tNew,timeout,unique,mismatch,cArr = [],bArr = [];
+let dir,hint,menu,buttons,difficulty,block,session,time,tNew,timeout,unique,mismatch,arr = [],cArr = [],bArr = [];
+
+dir = 'img/';
+arr = [
+  'bear.png',
+  'beaver.png',
+  'cat.png',
+  'deer.png',
+  'dog.png',
+  'elephant.png',
+  'lion.png',
+  'mouse.png',
+  'panda.png',
+  'pig.png',
+  'rabbit.png',
+  'walrus.png'
+];
 
 let timer = () => {
   let tNow = new Date().getTime();
@@ -32,26 +48,13 @@ let reset = () => {
 reset();
 
 let render = () => {
-  dir = 'img/';
-  cArr = [
-    'bear.png',
-    'beaver.png',
-    'cat.png',
-    'deer.png',
-    'dog.png',
-    'elephant.png',
-    'lion.png',
-    'mouse.png',
-    'panda.png',
-    'pig.png',
-    'rabbit.png',
-    'walrus.png'
-  ];
+  cArr = [...arr];
 
-  if     (difficulty === 'easy')  {unique = 4; hintTime = 4000;}
-  else if(difficulty === 'normal'){unique = 8; hintTime = 5000;}
-  else if(difficulty === 'hard')  {unique = 12;hintTime = 8000;}
-  else                            {unique = 4; hintTime = 4000;};
+  switch (difficulty){
+    case 'easy': unique = 4; hintTime = 4000;break;
+    case 'normal': unique = 12;hintTime = 8000;break;
+    case 'hard': unique = 4; hintTime = 4000;break;
+  };
 
   // generate array
   for(let b = 0;unique - b > 0; b++){
@@ -68,9 +71,9 @@ let render = () => {
     let str = bArr[r].split('.');
 
     let bTemplate = `
-      <div class="block open" data-name="`+str[0]+`">
+      <div class="block open" data-name="${str[0]}">
         <div class="blockWrap">
-          <img class="blockImage" src="`+dir+bArr[r]+`" />
+          <img class="blockImage" src="${dir+bArr[r]}" />
         </div>
       </div>
     `;
@@ -95,15 +98,18 @@ let render = () => {
 
 let results = () => {
   let rDifficulty;
-  if     (difficulty === 'easy')  {rDifficulty = 'Легко'}
-  else if(difficulty === 'normal'){rDifficulty = 'Нормально'}
-  else if(difficulty === 'hard')  {rDifficulty = 'Сложно'}
+
+  switch (difficulty){
+    case 'easy': rDifficulty = 'Легко';break;
+    case 'normal': rDifficulty = 'Нормально';break;
+    case 'hard': rDifficulty = 'Сложно';break;
+  };
 
   let template = `
     <section id="results">
       <div class="title">Все блоки открыты.</div>
       <div class="text">
-        <div>Сложность: `+rDifficulty+`</div>
+        <div>Сложность: ${rDifficulty}</div>
       </div>
     </section>
   `;

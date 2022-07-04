@@ -1,4 +1,5 @@
-let dir,hint,menu,buttons,difficulty,block,session,time,tNew,timeout,unique,mismatch,arr = [],cArr = [],bArr = [];
+'use strict';
+let dir,hint,hintTime,menu,buttons,difficulty,block,session,time,tNew,timeout,unique,mismatch,matched,unmatched,arr = [],cArr = [],bArr = [];
 
 dir = 'img/';
 arr = [
@@ -56,7 +57,7 @@ let render = () => {
   cArr = [...arr];
 
   switch (difficulty){
-    case 'easy': unique = 4; hintTime = 4000;break;
+    case 'easy': unique = 4;  hintTime = 4000;break;
     case 'normal': unique = 8;hintTime = 5000;break;
     case 'hard': unique = 12; hintTime = 8000;break;
   };

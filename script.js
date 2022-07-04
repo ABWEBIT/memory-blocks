@@ -52,8 +52,8 @@ let render = () => {
 
   switch (difficulty){
     case 'easy': unique = 4; hintTime = 4000;break;
-    case 'normal': unique = 12;hintTime = 8000;break;
-    case 'hard': unique = 4; hintTime = 4000;break;
+    case 'normal': unique = 8;hintTime = 5000;break;
+    case 'hard': unique = 12; hintTime = 8000;break;
   };
 
   // generate array

@@ -14,9 +14,25 @@
     <section id="name">Блоки: тренировка памяти</section>
 
     <section id="header">
-      <div id="menu">МЕНЮ</div>
+      <div id="menu">ВЫЙТИ</div>
       <div id="mismatch">0</div>
       <div id="time">00:00:00</div>
+    </section>
+
+    <section id="start" class="on">
+      <div class="title">Для старта игры выберите сложность</div>
+      <div id="difficulty">
+        <div class="button" data-difficulty="easy">Легко</div>
+        <div class="button" data-difficulty="norm">Нормально</div>
+        <div class="button" data-difficulty="hard">Сложно</div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="title">Все блоки открыты</div>
+      <div class="text">
+        <div>Сложность: <span id="dif"></span></div>
+      </div>
     </section>
 
     <section id="blocks"></section>

@@ -67,15 +67,26 @@ body{
   text-align:center;}
 
 #start,
+#results{display:none;}
+#results{opacity:0;}
+
+#start.on,
+#results.on{display:block;}
+
+#start,
 #results{
   width:100%;
   text-align:center;}
 
-#results{animation:fadeIn .5s;}
+#results.on{
+  animation-delay:.2s;
+  animation-duration:.5s;
+  animation-name:fadeIn;
+  animation-fill-mode:forwards;}
 
 .title{
-  font-size:120%;
-  padding-top:15px;}
+  font-size:100%;
+  padding-top:20px;}
 
 .text{
   line-height:150%;
@@ -83,7 +94,7 @@ body{
 
 #difficulty{
   padding-top:15px;
-  padding-bottom:50px;}
+  padding-bottom:25px;}
 
 .button{
   max-width:200px;
@@ -107,7 +118,7 @@ body{
   gap:10px;}
 
 .block{
-  transition:background-color 0.25s ease-out;
+  transition:background-color 0.2s ease-out;
   box-sizing:border-box;
   overflow:hidden;
   position:relative;

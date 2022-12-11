@@ -1,5 +1,5 @@
 'use strict';
-let dir,hint,hintTime,menu,buttons,difficulty,block,session,time,tNew,timeout,unique,mismatch,matched,unmatched,arr = [],cArr = [],bArr = [];
+let dir,menu,buttons,difficulty,block,timeout,unique,mismatch,arr = [],cArr = [],bArr = [];
 
 dir = 'img/';
 arr = [
@@ -18,48 +18,82 @@ arr = [
 ];
 
 /* timer */
-let Tint,Time;
-Time = document.getElementById('time');
+let TimerGame,GameTime = 0,msSec,msMin,msHrs,msDay;
+msSec = 1000;
+msMin = 60000;
+msHrs = 3600000;
+msDay = 86400000;
 
-let Timer = () => {
-  let TNow,TUpd,TDif,TNew,hrs,min,sec;
-  TNow = new Date().getTime();
-  Tint = setInterval(function(){
-    TUpd = new Date().getTime();
-    TDif = TUpd - TNow;
+let TimerGameFunc =()=>{
+  GameTime = 1;
+  let timeOld,timeNew,timeDif,sec,min,hrs;
+  timeOld = new Date().getTime();
+  TimerGame = setInterval(function(){
+    timeNew = new Date().getTime();
+    timeDif = timeNew - timeOld;
+    GameTime = timeDif;
 
-    hrs = Math.floor((TDif % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    min = Math.floor((TDif % (1000 * 60 * 60)) / (1000 * 60));
-    sec = Math.floor((TDif % (1000 * 60)) / 1000);
+    hrs = Math.floor((timeDif % msDay) / msHrs);
+    min = Math.floor((timeDif % msHrs) / msMin);
+    sec = Math.floor((timeDif % msMin) / msSec);
 
     if(hrs.toString().length === 1){hrs = '0'+hrs;};
     if(min.toString().length === 1){min = '0'+min;};
     if(sec.toString().length === 1){sec = '0'+sec;};
-    TNew = hrs+':'+min+':'+sec;
-    Time.innerHTML = TNew;
+    
+    document.getElementById('time').innerHTML = hrs+':'+min+':'+sec;
   },1000);
 };
 
-let reset = () => {
-  clearTimeout(hint);
-  clearTimeout(Tint);
+let TimerHint,HintTime = 0,HintTimeCounter;
+let TimerHintFunc =()=>{
+  HintTime = unique * 750;
+  let sec = HintTime / 1000;
+
+  let count =()=>{
+    if(sec.toString().length === 1) sec = '0'+sec;
+    document.getElementById('time').innerHTML = '00:00:'+sec;
+    sec -= 1;
+  };
+  count();
+
+  HintTimeCounter = setInterval(function(){
+    if(sec >= 0) count()
+    else clearTimeout(HintTimeCounter);
+  },1000);
+
+
+  block = Array.from(document.getElementsByClassName('block'));
+  TimerHint = setTimeout(function(){
+    block.forEach(function(e){
+      e.classList.remove('open');
+      HintTime = 0;
+    });
+  },HintTime);
+};
+
+let reset =()=>{
+  clearTimeout(TimerGame);
+  clearTimeout(TimerHint);
+  clearTimeout(HintTimeCounter);
   difficulty = '';
   mismatch = 0;
-  session = 'off';
+  GameTime = 0;
   bArr = [];
   document.getElementById('mismatch').innerHTML = '0';
-  Time.innerHTML = '00:00:00';
+  document.getElementById('time').innerHTML = '00:00:00';
   document.getElementById('blocks').innerHTML = '';
+  document.getElementById('results').classList.remove('on');
 };
 reset();
 
-let render = () => {
+let render =()=>{
   cArr = [...arr];
 
   switch (difficulty){
-    case 'easy': unique = 4;  hintTime = 4000;break;
-    case 'normal': unique = 8;hintTime = 5000;break;
-    case 'hard': unique = 12; hintTime = 8000;break;
+    case 'easy': unique = 4; break;
+    case 'norm': unique = 8; break;
+    case 'hard': unique = 12;break;
   };
 
   // generate array
@@ -93,83 +127,73 @@ let render = () => {
   });
 
   document.getElementById('header').classList.add('on');
-
-  hint = setTimeout(function(){
-    block.forEach(function(e){
-        e.classList.remove('open');
-      });
-    },hintTime);
-
+  TimerHintFunc();
 };
 
-let results = () => {
-  let rDifficulty;
-
+let results =()=>{
+  let d;
   switch (difficulty){
-    case 'easy': rDifficulty = 'Легко';break;
-    case 'normal': rDifficulty = 'Нормально';break;
-    case 'hard': rDifficulty = 'Сложно';break;
+    case 'easy': d = 'Легко';break;
+    case 'norm': d = 'Нормально';break;
+    case 'hard': d = 'Сложно';break;
   };
-
-  let template = `
-    <section id="results">
-      <div class="title">Все блоки открыты.</div>
-      <div class="text">
-        <div>Сложность: ${rDifficulty}</div>
-      </div>
-    </section>
-  `;
-  document.getElementById('blocks').innerHTML = template;
+  document.getElementById('dif').innerHTML = d;
+  document.getElementById('results').classList.add('on');
 };
 
+let matched,unmatched;
 function check(){
-  if(session === 'off'){session = 'on';Timer();};
+  if(GameTime === 0 && HintTime === 0) TimerGameFunc();
+  if(GameTime > 0){
 
-  let autoHide = () => {
-    unmatched = Array.from(document.getElementsByClassName('unmatched'));
+    let autoHide = () => {
+      unmatched = Array.from(document.getElementsByClassName('unmatched'));
 
-    timeout = setTimeout(function(){
-      unmatched.forEach(function(e){
-        e.classList.remove('open', 'unmatched');
-      });
-    },1500);
+      timeout = setTimeout(function(){
+        unmatched.forEach(function(e){
+          e.classList.remove('open', 'unmatched');
+        });
+      },400);
 
-  };
-  
-  if(!this.classList.contains('open') && !this.classList.contains('match')){
-    if(bArr.length === 2){
-      bArr.forEach(function(e){
-        e.classList.remove('open', 'unmatched');
-      });
-      bArr = [];
-      clearTimeout(timeout);
     };
-    this.classList.add('open');
-    bArr.push(this);
-  };
-  
-  if(bArr.length === 2){
-    if(bArr[0].dataset.name === bArr[1].dataset.name){
-      bArr.forEach(function(e){e.classList.add('match');});
-      bArr = [];
-    }
-    else if(bArr[0].dataset.name !== bArr[1].dataset.name){
-      bArr.forEach(function(e){e.classList.add('unmatched');});
-      mismatch += 1;
-      autoHide();
-      document.getElementById('mismatch').innerHTML = mismatch;
+    
+    if(
+      !this.classList.contains('open') &&
+      !this.classList.contains('match') &&
+      !this.classList.contains('unmatched')){
+
+      if(bArr.length < 2){
+        this.classList.add('open');
+        bArr.push(this);
+      };
+      checkFunc();
+    };
+
+    function checkFunc(){
+      if(bArr.length === 2){
+        if(bArr[0].dataset.name === bArr[1].dataset.name){
+          bArr.forEach(function(e){e.classList.add('match');});
+          bArr = [];
+        }
+        else if(bArr[0].dataset.name !== bArr[1].dataset.name){
+          bArr.forEach(function(e){e.classList.add('unmatched');});
+          mismatch += 1;
+          document.getElementById('mismatch').innerHTML = mismatch;
+          bArr = [];
+          autoHide();
+        };
+      };
+    };
+
+    matched = Array.from(document.getElementsByClassName('match'));
+    if(matched.length == block.length){
+      clearInterval(TimerGame);
+      setTimeout(()=>{
+        document.getElementById('blocks').innerHTML = '';
+        results();      
+      },500);
     };
   };
-
-  matched = Array.from(document.getElementsByClassName('match'));
-  if(matched.length == block.length){
-    clearInterval(Tint);
-    setTimeout(() => {
-      results();
-      document.getElementById('results').classList.add('on');
-    },1000);
-  };
-
 };
 
 document.getElementById('menu').addEventListener('click',function(){
@@ -177,25 +201,16 @@ document.getElementById('menu').addEventListener('click',function(){
   start();
 });
 
-let start = () => {
+let start =()=>{
   document.getElementById('header').classList.remove('on');
-  let template = `
-    <section id="start">
-      <div class="title">Выбрать сложность</div>
-      <div id="difficulty">
-        <div class="button" data-difficulty="easy">Легко</div>
-        <div class="button" data-difficulty="normal">Нормально</div>
-        <div class="button" data-difficulty="hard">Сложно</div>
-      </div>
-    </section>
-  `;
-  document.getElementById('blocks').innerHTML = template;
+  document.getElementById('start').classList.add('on');
 
   buttons = Array.from(document.getElementById('difficulty').getElementsByClassName('button'));
   buttons.forEach(function(e){
     e.addEventListener('click',function(){
       reset();
       difficulty = this.dataset.difficulty;
+      document.getElementById('start').classList.remove('on');
       render();
     });
   });

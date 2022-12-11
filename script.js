@@ -1,5 +1,5 @@
 'use strict';
-let dir,menu,buttons,difficulty,block,timeout,unique,mismatch,arr = [],cArr = [],bArr = [];
+let dir,menu,buttons,difficulty,block,unique,mismatch,arr = [],cArr = [],bArr = [];
 
 dir = 'img/';
 arr = [
@@ -61,7 +61,6 @@ let TimerHintFunc =()=>{
     if(sec >= 0) count()
     else clearTimeout(HintTimeCounter);
   },1000);
-
 
   block = Array.from(document.getElementsByClassName('block'));
   TimerHint = setTimeout(function(){
@@ -149,7 +148,7 @@ function check(){
     let autoHide = () => {
       unmatched = Array.from(document.getElementsByClassName('unmatched'));
 
-      timeout = setTimeout(function(){
+      setTimeout(function(){
         unmatched.forEach(function(e){
           e.classList.remove('open', 'unmatched');
         });
